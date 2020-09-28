@@ -2,7 +2,6 @@ package application.principal;
 
 import java.io.File;
 import java.text.DecimalFormat;
-
 import algoritmos.AprendizagemBayesiana;
 import application.extractor_feature.ExtractFeature;
 import javafx.fxml.FXML;
@@ -16,14 +15,19 @@ public class PrincipalController {
 	@FXML private ImageView imageView;
 
 	//Labels
-    @FXML private Label lblLaranjaCamisaBart;
-    @FXML private Label lblAzulCalcaoBart;
-    @FXML private Label lblAzulSapatoBart;
-    @FXML private Label lblAzulCalcaHomer;
-    @FXML private Label lblMarromBocaHomer;
-    @FXML private Label lblPretoSapatoHomer;
+    @FXML private Label lblVerdeCamisaLenny;
+    @FXML private Label lblAzulSuspensorioLenny;
+    @FXML private Label lblMarromBarbaLenny;
+    
+    @FXML private Label lblLaranjaCamisaNelson;
+    @FXML private Label lblAzulColeteNelson;
+    @FXML private Label lblAzulSapatoNelson;
+    
     @FXML private Label lblApzHomer;
     @FXML private Label lblApzBart;
+
+
+	private double[] caracteristicasImgSel = {0,0,0,0,0,0};
 	
 	@FXML
 	public void enviarCaracteristicasParaARFF() {
@@ -38,32 +42,36 @@ public class PrincipalController {
 			imageView.setImage(img);
 			imageView.setFitWidth(img.getWidth());
 			imageView.setFitHeight(img.getHeight());
-			double[] caracteristicas = ExtractFeature.extraiCaracteristicas(f);
+			caracteristicasImgSel = ExtractFeature.extraiCaracteristicas(f);
 			
-			//Bart
-			lblLaranjaCamisaBart.setText("Laranja camisa: "+round(caracteristicas[0], 4));
-			lblAzulCalcaoBart.setText("Azul Calção: "+round(caracteristicas[1], 4));
-			lblAzulSapatoBart.setText("Azul Sapato: "+round(caracteristicas[2], 4));
+			//Lenny
+			lblVerdeCamisaLenny.setText("Verde Camisa: "+caracteristicasImgSel[0]);
+			//lblAzulSuspensorioLenny.setText("Azul Suspensorio: "+caracteristicasImgSel[1]);
+			lblMarromBarbaLenny.setText("Marrom Barba: "+caracteristicasImgSel[2]);
 			
-			//Homer
-			lblAzulCalcaHomer.setText("Azul Calça: "+round(caracteristicas[3], 4));
-			lblMarromBocaHomer.setText("Marrom Boca: "+round(caracteristicas[4], 4));
-			lblPretoSapatoHomer.setText("Preto Sapato: "+round(caracteristicas[5], 4));
+			//Nelson
+			lblLaranjaCamisaNelson.setText("Laranja Camisa: "+caracteristicasImgSel[3]);
+			lblAzulColeteNelson.setText("Azul Colete: "+caracteristicasImgSel[4]);
+			lblAzulSapatoNelson.setText("Azul Sapato: "+caracteristicasImgSel[5]);
+			
+			for (double d : caracteristicasImgSel) {
+				System.out.println(d);
+			}
 			
 		}
 	}
 	
 	DecimalFormat df = new DecimalFormat();
 	
-	private double[] caracteristicasImgSel = {0,0,0,0,0,0};
+	//private double[] caracteristicasImgSel = {1,1,1,1,1,1};
 	
 	@FXML
 	public void classificar() {
 		double[] nb = AprendizagemBayesiana.naiveBayes(caracteristicasImgSel);
-		System.out.println("Bart: "+nb[0]);
-		System.out.println("Homer: "+nb[1]);
-		lblApzBart.setText("BART: "+round(nb[0], 4)+"%");
-		lblApzHomer.setText("HOMER: "+round(nb[1], 4)+"%");
+		System.out.println("LENNY: "+nb[0]);
+		System.out.println("NELSON: "+nb[1]);
+		lblApzBart.setText("LENNY: "+round(nb[0], 4)+"%");
+		lblApzHomer.setText("NELSON: "+round(nb[1], 4)+"%");
 	}
 	
 	public static double round(double value, int places) {

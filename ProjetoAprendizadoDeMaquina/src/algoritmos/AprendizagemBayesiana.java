@@ -1,5 +1,6 @@
 package algoritmos;
 
+import application.extractor_feature.ExtractFeature;
 import weka.classifiers.bayes.NaiveBayes;
 import weka.core.DenseInstance;
 import weka.core.Instance;
@@ -12,7 +13,8 @@ public class AprendizagemBayesiana {
 		double[] retorno = {0,0};
 		try {
 			//*******carregar arquivo de características
-			DataSource ds = new DataSource("src\\\\arff\\\\caracteristicas.arff");
+			DataSource ds = new DataSource("src\\arff\\caracteristicas.arff");
+		
 			Instances instancias = ds.getDataSet();
 			//instancias.setClassIndex(6);
 			instancias.setClassIndex(instancias.numAttributes()-1);

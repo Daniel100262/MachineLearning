@@ -66,7 +66,7 @@
                                  <children>
                                     <VBox prefHeight="111.0" prefWidth="159.0">
                                        <children>
-                                          <Label text="BART">
+                                          <Label text="LENNY">
                                              <VBox.margin>
                                                 <Insets left="5.0" top="10.0" />
                                              </VBox.margin>
@@ -74,17 +74,17 @@
                                                 <Font name="System Bold" size="12.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="lblLaranjaCamisaBart" text="Laranja Camisa: ">
+                                          <Label fx:id="lblVerdeCamisaLenny" text="Verde Camisa: ">
                                              <VBox.margin>
                                                 <Insets left="5.0" top="10.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <Label fx:id="lblAzulCalcaoBart" layoutX="10.0" layoutY="37.0" text="Azul Calção: ">
+                                          <Label fx:id="lblMarromBarbaLenny" layoutX="10.0" layoutY="37.0" text="Azul Suspensorio: ">
                                              <VBox.margin>
                                                 <Insets left="5.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <Label fx:id="lblAzulSapatoBart" layoutX="10.0" layoutY="54.0" text="Azul Sapato:">
+                                          <Label fx:id="lblMarromBarbaLenny" layoutX="10.0" layoutY="54.0" text="Marrom Barba:">
                                              <VBox.margin>
                                                 <Insets left="5.0" />
                                              </VBox.margin>
@@ -93,7 +93,7 @@
                                     </VBox>
                                     <VBox layoutX="10.0" layoutY="10.0" prefHeight="111.0" prefWidth="159.0">
                                        <children>
-                                          <Label text="HOMER">
+                                          <Label text="NELSON">
                                              <VBox.margin>
                                                 <Insets left="5.0" top="10.0" />
                                              </VBox.margin>
@@ -101,17 +101,17 @@
                                                 <Font name="System Bold" size="12.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="lblAzulCalcaHomer" text="Azul Calça:">
+                                          <Label fx:id="lblLaranjaCamisaNelson" text="Laranja Camisa:">
                                              <VBox.margin>
                                                 <Insets left="5.0" top="10.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <Label fx:id="lblMarromBocaHomer" layoutX="10.0" layoutY="37.0" text="Marrom Boca:">
+                                          <Label fx:id="lblAzulColeteNelson" layoutX="10.0" layoutY="37.0" text="Azul Colete:">
                                              <VBox.margin>
                                                 <Insets left="5.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <Label fx:id="lblPretoSapatoHomer" layoutX="10.0" layoutY="54.0" text="Preto Sapato:">
+                                          <Label fx:id="lblAzulSapatoNelson" layoutX="10.0" layoutY="54.0" text="Azul Sapato:">
                                              <VBox.margin>
                                                 <Insets left="5.0" />
                                              </VBox.margin>
@@ -129,7 +129,7 @@
                            <children>
                               <VBox layoutY="1.0" prefHeight="68.0" prefWidth="329.0">
                                  <children>
-                                    <Label fx:id="lblApzBart" text="BART: ">
+                                    <Label fx:id="lblApzBart" text="LENNY: ">
                                        <VBox.margin>
                                           <Insets left="10.0" top="10.0" />
                                        </VBox.margin>
@@ -137,7 +137,7 @@
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="lblApzHomer" layoutX="10.0" layoutY="10.0" text="HOMER:">
+                                    <Label fx:id="lblApzHomer" layoutX="10.0" layoutY="10.0" text="NELSON:">
                                        <VBox.margin>
                                           <Insets left="10.0" top="10.0" />
                                        </VBox.margin>

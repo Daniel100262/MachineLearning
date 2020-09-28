@@ -1,12 +1,13 @@
 package application.extractor_feature;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
-import org.opencv.core.Core;
+import javax.imageio.ImageIO;
 import org.opencv.core.Mat;
 import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
-import org.opencv.imgproc.Imgproc;
+
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.paint.Color;
@@ -16,87 +17,94 @@ public class ExtractFeature {
 	public static double[] extraiCaracteristicas(File imagem) {
 		
 		double[] caracteristicas = new double[7];
-
-		double laranjaCamisaBart = 0;
-		double azulCalcaoBart = 0;
-		double azulSapatoBart = 0;
-		double azulCalcaHomer = 0;
-		double marromBocaHomer = 0;
-		double cinzaSapatoHomer = 0; 
 		
+		double VerdeCamisaLenny = 0;
+		double AzulSuspensorioLenny = 0;
+		double MarromBarbaLenny = 0;
+		
+		double LaranjaCamisaNelson = 0;
+		double AzulColeteNelson = 0;
+		double AzulSapatoNelson = 0;
 		
 		Image img = new Image(imagem.toURI().toString());
 		PixelReader pr = img.getPixelReader();
 		
 		Mat imagemOriginal = Imgcodecs.imread(imagem.getPath());
-        Mat imagemProcessada = imagemOriginal.clone();
-		
+		Mat imagemProcessada = imagemOriginal.clone();
+
 		int largura = (int)img.getWidth();
 		int altura = (int)img.getHeight();
 		
-		
-		for(int i=0; i<altura; i++) {
-			for(int j=0; j<largura; j++) {
+		for(int i=0; i<largura; i++) {
+			for(int j=0; j<altura; j++) {
 				
-				Color cor = pr.getColor(j,i);
+				Color cor = pr.getColor(i,j);
 				
 				double r = cor.getRed()*255; 
 				double g = cor.getGreen()*255;
 				double b = cor.getBlue()*255;
 				
-				if(isCamisaLaranjaBart(r, g, b)) {
-					laranjaCamisaBart++;
-					imagemProcessada.put(i, j, new double[]{0, 255, 128});
+				if(isVerdeCamisaLenny(r, g, b)) {
+					VerdeCamisaLenny++;
+					imagemProcessada.put(i, j, new double[]{0, 255, 0});
 				}
-				if(i>(altura/2) && isCalcaoAzulBart(r, g, b)) {
-					azulCalcaoBart++;
-					imagemProcessada.put(i, j, new double[]{0, 255, 128});
+				
+				if(i< (altura/2) && isAzulSuspensorioLenny(r, g, b)) {
+					AzulSuspensorioLenny++;
+					imagemProcessada.put(i, j, new double[]{0, 0, 255});
 				}
-				if (i > (altura/2 + altura/3) && isSapatoBart(r, g, b)) {
-					azulSapatoBart++;
-					imagemProcessada.put(i, j, new double[]{0, 255, 128});
-				}
-				if(isCalcaAzulHomer(r, g, b)) {
-					azulCalcaHomer++;
+				
+				if(i < (altura/2 + altura/3) && isMarromBarbaLenny(r, g, b)) {
+					MarromBarbaLenny++;
 					imagemProcessada.put(i, j, new double[]{0, 255, 255});
 				}
-				if(i < (altura/2 + altura/3) && isBocaHomer(r, g, b)) {
-					marromBocaHomer++;
-					imagemProcessada.put(i, j, new double[]{0, 255, 255});
+				
+				if(i< (altura/2) && isLaranjaCamisaNelson(r, g, b)) {
+					LaranjaCamisaNelson++;
+					imagemProcessada.put(i, j, new double[]{0, 255, 128});
 				}
-				if (i > (altura/2 + altura/3) && isSapatoHomer(r, g, b)) {
-					cinzaSapatoHomer++;
-					imagemProcessada.put(i, j, new double[]{0, 255, 255});
+				
+				if(i< (altura/2) && isAzulColeteNelson(r, g, b)) {
+					AzulColeteNelson++;
+					imagemProcessada.put(i, j, new double[]{0, 255, 128});
 				}
+				
+			
+				if (i > (altura/2) && isAzulSapatoNelson(r, g, b)) {
+					AzulSapatoNelson++;
+					imagemProcessada.put(i, j, new double[]{0, 255, 128});
+				}
+				
+				
 				
 			}
 		}
 	
 		
 		// Normaliza as características pelo número de pixels totais da imagem para %
-        laranjaCamisaBart = (laranjaCamisaBart / (largura * altura)) * 100;
-        azulCalcaoBart = (azulCalcaoBart / (largura * altura)) * 100;
-        azulSapatoBart = (azulSapatoBart / (largura * altura)) * 100;
-        azulCalcaHomer = (azulCalcaHomer / (largura * altura)) * 100;
-        marromBocaHomer = (marromBocaHomer / (largura * altura)) * 100;
-        cinzaSapatoHomer = (cinzaSapatoHomer / (largura * altura)) * 100;
+		VerdeCamisaLenny = (VerdeCamisaLenny / (largura * altura)) * 100;
+		AzulSuspensorioLenny = (AzulSuspensorioLenny / (largura * altura)) * 100;
+        MarromBarbaLenny = (MarromBarbaLenny / (largura * altura)) * 100;
+        LaranjaCamisaNelson = (LaranjaCamisaNelson / (largura * altura)) * 100;
+        AzulColeteNelson = (AzulColeteNelson / (largura * altura)) * 100;
+        AzulSapatoNelson = (AzulSapatoNelson / (largura * altura)) * 100;
         
-        caracteristicas[0] = laranjaCamisaBart;
-        caracteristicas[1] = azulCalcaoBart;
-        caracteristicas[2] = azulSapatoBart;
+        caracteristicas[0] = VerdeCamisaLenny;
+        caracteristicas[1] = AzulSuspensorioLenny;
+        caracteristicas[2] = MarromBarbaLenny;
         
-        caracteristicas[3] = azulCalcaHomer;
-        caracteristicas[4] = marromBocaHomer;
-        caracteristicas[5] = cinzaSapatoHomer;
+        caracteristicas[3] = LaranjaCamisaNelson;
+        caracteristicas[4] = AzulColeteNelson;
+        caracteristicas[5] = AzulSapatoNelson;
         //APRENDIZADO SUPERVISIONADO - JÁ SABE QUAL A CLASSE NAS IMAGENS DE TREINAMENTO
-        caracteristicas[6] = imagem.getName().charAt(0)=='b'?0:1;
+        caracteristicas[6] = imagem.getName().charAt(0)=='l'?0:1;
 		
-		//HighGui.imshow("Imagem original", imagemOriginal);
-        //HighGui.imshow("Imagem processada", imagemProcessada);
+		HighGui.imshow("Imagem original", imagemOriginal);
+        HighGui.imshow("Imagem processada", imagemProcessada);
         
         //HighGui.imshow("Teste sem fundo", removeFundoImagem(imagemProcessada, imagemOriginal));
         
-       // HighGui.waitKey(0);
+        HighGui.waitKey(50);
 		
 		return caracteristicas;
 	}
@@ -104,68 +112,132 @@ public class ExtractFeature {
 	
 	
 	
-	private static Mat removeFundoImagem(Mat currFrame, Mat oldFrame) {
-		
-		Mat greyImage = new Mat();
-		Mat foregroundImage = new Mat();
-		
-		Core.absdiff(currFrame, oldFrame, foregroundImage);
-		Imgproc.cvtColor(foregroundImage, greyImage, Imgproc.COLOR_BGR2GRAY);
-		
-		int thresh_type = Imgproc.THRESH_BINARY_INV;
-		
-		Imgproc.threshold(greyImage, greyImage, 10, 255, thresh_type);
-		currFrame.copyTo(foregroundImage, greyImage);
-		
-		oldFrame = currFrame;
-		return foregroundImage;
-		
+	
+	
+//	private static Mat removeFundoImagem(Mat currFrame, Mat oldFrame) {
+//		
+//		Mat greyImage = new Mat();
+//		Mat foregroundImage = new Mat();
+//		BackgroundSubtractorMOG2 
+//		
+//		Core.absdiff(currFrame, oldFrame, foregroundImage);
+//		Imgproc.cvtColor(foregroundImage, greyImage, Imgproc.COLOR_BGR2GRAY);
+//		
+//		int thresh_type = Imgproc.THRESH_BINARY_INV;
+//		
+//		Imgproc.threshold(greyImage, greyImage, 10, 255, thresh_type);
+//		currFrame.copyTo(foregroundImage, greyImage);
+//		
+//		oldFrame = currFrame;
+//		return foregroundImage;
+//		
+//	}
+	
+
+	
+	/*
+	 * Caracteristicas Lenny
+	 * 
+	 * */
+	
+	public static boolean isVerdeCamisaLenny(double r, double g, double b) {
+		if (r >= 0 && r <= 145 && g>=40 && g<= 165 && b>=0 && b <= 120) {
+			return true;
+		}
+		return false;
 	}
 	
+	public static boolean isAzulSuspensorioLenny(double r, double g, double b) {
+		if (r >= 30 && r <= 60 && g>=10 && g<= 35 && b>=85 && b<=135) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean isMarromBarbaLenny(double r, double g, double b) {
+		if (r >= 175 && r<= 220 && g >= 125 && g <= 200 && b>=30 && b<= 160) {
+			return true;
+		}
+		return false;
+	}
 	
 	
 	
 	
 	/*
-	 * Retorna true se encontrar padrão de cores referente ao que se pede
+	 * Caracteristicas Nelson
+	 * 
 	 * */
 	
-	public static boolean isCamisaLaranjaBart(double r, double g, double b) {
-		 if (b >= 7 && b <= 90 &&  g >= 70 && g <= 105 &&  r >= 200 && r <= 255) {                       
-         	return true;
-         }
-		 return false;
-	}
-	public static boolean isCalcaoAzulBart(double r, double g, double b) {
-		if (b >= 125 && b <= 170 &&  g >= 5 && g <= 125 &&  r >= 0 && r <= 20) {                       
+	public static boolean isLaranjaCamisaNelson(double r, double g, double b) {
+		if (r >= 185 && r <= 235 && g >= 95 && g <= 140 && b >= 85 && b <= 110) {
 			return true;
 		}
 		return false;
 	}
-	public static boolean isSapatoBart(double r, double g, double b) {
-		if (b >= 125 && b <= 140 &&  g >= 3 && g <= 12 &&  r >= 5 && r <= 20) {                       
+	
+	
+	public static boolean isAzulColeteNelson(double r, double g, double b) {
+		if (r >= 90 && r <= 125 && g >= 129 && g <= 145 && b >= 136 && b <= 160) {
 			return true;
 		}
 		return false;
 	}
-	public static boolean isCalcaAzulHomer(double r, double g, double b) {
-		if (b >= 150 && b <= 180 &&  g >= 98 && g <= 120 &&  r >= 0 && r <= 90) {                       
+	
+	
+	public static boolean isAzulSapatoNelson(double r, double g, double b) {
+		if (r >= 39 && r <= 45 && g >= 99 && g <= 106 && b >= 30 && b <= 200) {
 			return true;
 		}
 		return false;
 	}
-	public static boolean isBocaHomer(double r, double g, double b) {
-		if (b >= 95 && b <= 140 &&  g >= 160 && g <= 185 &&  r >= 175 && r <= 200) {                       
-			return true;
-		}
-		return false;
-	}
-	public static boolean isSapatoHomer(double r, double g, double b) {
-		if (b >= 25 && b <= 45 &&  g >= 25 && g <= 45 &&  r >= 25 && r <= 45) {                       
-			return true;
-		}
-		return false;
-	}
+
+	
+	
+	
+	
+	
+	
+//	/*
+//	 * Retorna true se encontrar padrão de cores referente ao que se pede
+//	 * */
+//	
+//	public static boolean isCamisaLaranjaBart(double r, double g, double b) {
+//		 if (b >= 7 && b <= 90 &&  g >= 70 && g <= 105 &&  r >= 200 && r <= 255) {                       
+//         	return true;
+//         }
+//		 return false;
+//	}
+//	public static boolean isCalcaoAzulBart(double r, double g, double b) {
+//		if (b >= 125 && b <= 170 &&  g >= 5 && g <= 125 &&  r >= 0 && r <= 20) {                       
+//			return true;
+//		}
+//		return false;
+//	}
+//	public static boolean isSapatoBart(double r, double g, double b) {
+//		if (b >= 125 && b <= 140 &&  g >= 3 && g <= 12 &&  r >= 5 && r <= 20) {                       
+//			return true;
+//		}
+//		return false;
+//	}
+//	public static boolean isCalcaAzulHomer(double r, double g, double b) {
+//		if (b >= 150 && b <= 180 &&  g >= 98 && g <= 120 &&  r >= 0 && r <= 90) {                       
+//			return true;
+//		}
+//		return false;
+//	}
+//	public static boolean isBocaHomer(double r, double g, double b) {
+//		if (b >= 95 && b <= 140 &&  g >= 160 && g <= 185 &&  r >= 175 && r <= 200) {                       
+//			return true;
+//		}
+//		return false;
+//	}
+//	public static boolean isSapatoHomer(double r, double g, double b) {
+//		if (b >= 25 && b <= 45 &&  g >= 25 && g <= 45 &&  r >= 25 && r <= 45) {                       
+//			return true;
+//		}
+//		return false;
+//	}
 
 
 	
@@ -180,13 +252,18 @@ public class ExtractFeature {
 				
 	    // Cabeçalho do arquivo Weka
 		String exportacao = "@relation caracteristicas\n\n";
-		exportacao += "@attribute laranja_camisa_bart real\n";
-		exportacao += "@attribute azul_calcao_bart real\n";
-		exportacao += "@attribute azul_sapato_bart real\n";
-		exportacao += "@attribute marrom_boca_homer real\n";
-		exportacao += "@attribute azul_calca_homer real\n";
-		exportacao += "@attribute cinza_sapato_homer real\n";
-		exportacao += "@attribute classe {Bart, Homer}\n\n";
+		
+		//Lenny
+		exportacao += "@attribute verde_camisa_lenny real\n";
+		exportacao += "@attribute azul_suspensorio_lenny real\n";
+		exportacao += "@attribute marrom_barba_lenny real\n";
+		
+		//Nelson
+		exportacao += "@attribute laranja_camisa_nelson real\n";
+		exportacao += "@attribute azul_colete_nelson real\n";
+		exportacao += "@attribute azul_sapato_nelson real\n";
+		
+		exportacao += "@attribute classe {Lenny, Nelson}\n\n";
 		exportacao += "@data\n";
 	        
 	    // Diretório onde estão armazenadas as imagens
@@ -194,15 +271,17 @@ public class ExtractFeature {
 	    File[] arquivos = diretorio.listFiles();
 	    
         // Definição do vetor de características
-        double[][] caracteristicas = new double[293][7];
+        double[][] caracteristicas = new double[668][7];
         
         // Percorre todas as imagens do diretório
         int cont = -1;
         for (File imagem : arquivos) {
         	cont++;
+        	
+        	
         	caracteristicas[cont] = extraiCaracteristicas(imagem);
         	
-        	String classe = caracteristicas[cont][6] == 0 ?"Bart":"Homer";
+        	String classe = caracteristicas[cont][6] == 0 ?"Lenny":"Nelson";
         	
 //        	System.out.println("Laranja camisa Bart: " + caracteristicas[cont][0] 
 //            		+ " - Azul calção Bart: " + caracteristicas[cont][1] 

@@ -1,13 +1,10 @@
 package application.extractor_feature;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
-import javax.imageio.ImageIO;
 import org.opencv.core.Mat;
 import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
-
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.paint.Color;
@@ -35,48 +32,45 @@ public class ExtractFeature {
 		int largura = (int)img.getWidth();
 		int altura = (int)img.getHeight();
 		
-		for(int i=0; i<largura; i++) {
-			for(int j=0; j<altura; j++) {
+		for(int i=0; i<altura; i++) {
+			for(int j=0; j<largura; j++) {
 				
-				Color cor = pr.getColor(i,j);
+				Color cor = pr.getColor(j,i);
 				
 				double r = cor.getRed()*255; 
 				double g = cor.getGreen()*255;
 				double b = cor.getBlue()*255;
 				
-				if(isVerdeCamisaLenny(r, g, b)) {
+				if(i> (altura/4) && i < 3*(altura/4) &&isVerdeCamisaLenny(r, g, b)) {
 					VerdeCamisaLenny++;
-					imagemProcessada.put(i, j, new double[]{0, 255, 0});
+					imagemProcessada.put(i, j, new double[]{0,255,128});
 				}
 				
-				if(i< (altura/2) && isAzulSuspensorioLenny(r, g, b)) {
+				if(i< (altura/1.25) && i>(altura/1.5) && isAzulSuspensorioLenny(r, g, b)) {
 					AzulSuspensorioLenny++;
-					imagemProcessada.put(i, j, new double[]{0, 0, 255});
+					imagemProcessada.put(i, j, new double[]{0,255,128});
 				}
 				
 				if(i < (altura/2 + altura/3) && isMarromBarbaLenny(r, g, b)) {
 					MarromBarbaLenny++;
-					imagemProcessada.put(i, j, new double[]{0, 255, 255});
+					imagemProcessada.put(i, j, new double[]{0,255,128});
 				}
 				
-				if(i< (altura/2) && isLaranjaCamisaNelson(r, g, b)) {
+				if(i> (altura/4) && isLaranjaCamisaNelson(r, g, b)) {
 					LaranjaCamisaNelson++;
-					imagemProcessada.put(i, j, new double[]{0, 255, 128});
+					imagemProcessada.put(i, j, new double[]{25, 0, 255 });
 				}
 				
 				if(i< (altura/2) && isAzulColeteNelson(r, g, b)) {
 					AzulColeteNelson++;
-					imagemProcessada.put(i, j, new double[]{0, 255, 128});
+					imagemProcessada.put(i, j, new double[]{25, 0, 255 });
 				}
 				
 			
 				if (i > (altura/2) && isAzulSapatoNelson(r, g, b)) {
 					AzulSapatoNelson++;
-					imagemProcessada.put(i, j, new double[]{0, 255, 128});
+					imagemProcessada.put(i, j, new double[]{25, 0, 255 });
 				}
-				
-				
-				
 			}
 		}
 	
@@ -102,36 +96,10 @@ public class ExtractFeature {
 		HighGui.imshow("Imagem original", imagemOriginal);
         HighGui.imshow("Imagem processada", imagemProcessada);
         
-        //HighGui.imshow("Teste sem fundo", removeFundoImagem(imagemProcessada, imagemOriginal));
-        
         HighGui.waitKey(50);
 		
 		return caracteristicas;
 	}
-
-	
-	
-	
-	
-	
-//	private static Mat removeFundoImagem(Mat currFrame, Mat oldFrame) {
-//		
-//		Mat greyImage = new Mat();
-//		Mat foregroundImage = new Mat();
-//		BackgroundSubtractorMOG2 
-//		
-//		Core.absdiff(currFrame, oldFrame, foregroundImage);
-//		Imgproc.cvtColor(foregroundImage, greyImage, Imgproc.COLOR_BGR2GRAY);
-//		
-//		int thresh_type = Imgproc.THRESH_BINARY_INV;
-//		
-//		Imgproc.threshold(greyImage, greyImage, 10, 255, thresh_type);
-//		currFrame.copyTo(foregroundImage, greyImage);
-//		
-//		oldFrame = currFrame;
-//		return foregroundImage;
-//		
-//	}
 	
 
 	
@@ -141,7 +109,7 @@ public class ExtractFeature {
 	 * */
 	
 	public static boolean isVerdeCamisaLenny(double r, double g, double b) {
-		if (r >= 0 && r <= 145 && g>=40 && g<= 165 && b>=0 && b <= 120) {
+		if (r >= 14 && r <= 70 && g>=71 && g<= 160 && b>=10 && b <= 35) {
 			return true;
 		}
 		return false;
@@ -155,7 +123,7 @@ public class ExtractFeature {
 	}
 	
 	public static boolean isMarromBarbaLenny(double r, double g, double b) {
-		if (r >= 175 && r<= 220 && g >= 125 && g <= 200 && b>=30 && b<= 160) {
+		if (r >= 175 && r<= 220 && g >= 125 && g <= 200 && b>=100 && b<= 160) {
 			return true;
 		}
 		return false;
@@ -178,7 +146,7 @@ public class ExtractFeature {
 	
 	
 	public static boolean isAzulColeteNelson(double r, double g, double b) {
-		if (r >= 90 && r <= 125 && g >= 129 && g <= 145 && b >= 136 && b <= 160) {
+		if (r >= 90 && r <= 125 && g >= 129 && g <= 149 && b >= 136 && b <= 178) {
 			return true;
 		}
 		return false;
@@ -192,60 +160,6 @@ public class ExtractFeature {
 		return false;
 	}
 
-	
-	
-	
-	
-	
-	
-//	/*
-//	 * Retorna true se encontrar padrão de cores referente ao que se pede
-//	 * */
-//	
-//	public static boolean isCamisaLaranjaBart(double r, double g, double b) {
-//		 if (b >= 7 && b <= 90 &&  g >= 70 && g <= 105 &&  r >= 200 && r <= 255) {                       
-//         	return true;
-//         }
-//		 return false;
-//	}
-//	public static boolean isCalcaoAzulBart(double r, double g, double b) {
-//		if (b >= 125 && b <= 170 &&  g >= 5 && g <= 125 &&  r >= 0 && r <= 20) {                       
-//			return true;
-//		}
-//		return false;
-//	}
-//	public static boolean isSapatoBart(double r, double g, double b) {
-//		if (b >= 125 && b <= 140 &&  g >= 3 && g <= 12 &&  r >= 5 && r <= 20) {                       
-//			return true;
-//		}
-//		return false;
-//	}
-//	public static boolean isCalcaAzulHomer(double r, double g, double b) {
-//		if (b >= 150 && b <= 180 &&  g >= 98 && g <= 120 &&  r >= 0 && r <= 90) {                       
-//			return true;
-//		}
-//		return false;
-//	}
-//	public static boolean isBocaHomer(double r, double g, double b) {
-//		if (b >= 95 && b <= 140 &&  g >= 160 && g <= 185 &&  r >= 175 && r <= 200) {                       
-//			return true;
-//		}
-//		return false;
-//	}
-//	public static boolean isSapatoHomer(double r, double g, double b) {
-//		if (b >= 25 && b <= 45 &&  g >= 25 && g <= 45 &&  r >= 25 && r <= 45) {                       
-//			return true;
-//		}
-//		return false;
-//	}
-
-
-	
-	
-	
-	
-	
-	
 	
 	//Extraindo caracteristicas do diretorio fixo
 	public static void criarARFF() {
@@ -282,14 +196,6 @@ public class ExtractFeature {
         	caracteristicas[cont] = extraiCaracteristicas(imagem);
         	
         	String classe = caracteristicas[cont][6] == 0 ?"Lenny":"Nelson";
-        	
-//        	System.out.println("Laranja camisa Bart: " + caracteristicas[cont][0] 
-//            		+ " - Azul calção Bart: " + caracteristicas[cont][1] 
-//            		+ " - Azul sapato Bart: " + caracteristicas[cont][2] 
-//            		+ " - Azul calça Homer: " + caracteristicas[cont][3] 
-//            		+ " - Marrom boca Homer: " + caracteristicas[cont][4] 
-//            		+ " - Preto sapato Homer: " + caracteristicas[cont][5] 
-//            		+ " - Classe: " + classe);
         	
         	exportacao += caracteristicas[cont][0] + "," 
                     + caracteristicas[cont][1] + "," 

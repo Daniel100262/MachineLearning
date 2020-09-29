@@ -13,16 +13,16 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="488.0" prefWidth="754.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.principal.PrincipalController">
+<BorderPane prefHeight="561.0" prefWidth="823.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.principal.PrincipalController">
    <top>
       <HBox BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#enviarCaracteristicasParaARFF" text="Criar ARFF com pasta selecionada">
+            <Button mnemonicParsing="false" onAction="#enviarCaracteristicasParaARFF" text="Gerar ARFF">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
             </Button>
-            <Button layoutX="15.0" layoutY="15.0" mnemonicParsing="false" onAction="#selecionaImagem" text="Seleciona Imagem">
+            <Button layoutX="15.0" layoutY="15.0" mnemonicParsing="false" onAction="#selecionaImagem" text="Selecionar Imagem">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
@@ -32,7 +32,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
             </Button>
-            <Button layoutX="370.0" layoutY="15.0" mnemonicParsing="false" onAction="#selecionaImagem" text="Matriz de confusão">
+            <Button layoutX="370.0" layoutY="15.0" mnemonicParsing="false" onAction="#mostraMatrizDecisao" text="Matriz de confusão">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>
@@ -56,9 +56,9 @@
                </content>
             </ScrollPane>
             <Accordion fx:id="accordionOpcoes" />
-            <VBox prefHeight="453.0" prefWidth="304.0">
+            <VBox prefHeight="526.0" prefWidth="365.0">
                <children>
-                  <TitledPane animated="false" text="Características">
+                  <TitledPane animated="false" prefHeight="135.0" prefWidth="361.0" text="Características">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="109.0" prefWidth="328.0">
                            <children>
@@ -79,7 +79,7 @@
                                                 <Insets left="5.0" top="10.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <Label fx:id="lblMarromBarbaLenny" layoutX="10.0" layoutY="37.0" text="Azul Suspensorio: ">
+                                          <Label fx:id="lblAzulSuspensorioLenny" layoutX="10.0" layoutY="37.0" text="Azul Suspensorio: ">
                                              <VBox.margin>
                                                 <Insets left="5.0" />
                                              </VBox.margin>
@@ -152,6 +152,26 @@
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
+                  </TitledPane>
+                  <TitledPane animated="false" layoutX="10.0" layoutY="150.0" prefHeight="191.0" prefWidth="365.0" text="Matriz de confusão">
+                     <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="70.0" prefWidth="328.0">
+                           <children>
+                              <VBox layoutY="1.0" prefHeight="153.0" prefWidth="356.0">
+                                 <children>
+                                    <Label fx:id="lblMatrizConfusao" prefHeight="136.0" prefWidth="338.0">
+                                       <VBox.margin>
+                                          <Insets left="10.0" top="10.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font name="System Bold" size="12.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                     </content>
                   </TitledPane>
                </children>
             </VBox>

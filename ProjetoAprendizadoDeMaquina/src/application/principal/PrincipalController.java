@@ -9,6 +9,12 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+import weka.classifiers.Classifier;
+import weka.classifiers.Evaluation;
+import weka.classifiers.trees.J48;
+import weka.core.Debug.Random;
+import weka.core.Instances;
+import weka.core.converters.ConverterUtils.DataSource;
 
 public class PrincipalController {
 	
@@ -25,6 +31,8 @@ public class PrincipalController {
     
     @FXML private Label lblApzHomer;
     @FXML private Label lblApzBart;
+    
+    @FXML private Label lblMatrizConfusao;
 
 
 	private double[] caracteristicasImgSel = {0,0,0,0,0,0};
@@ -45,20 +53,32 @@ public class PrincipalController {
 			caracteristicasImgSel = ExtractFeature.extraiCaracteristicas(f);
 			
 			//Lenny
-			lblVerdeCamisaLenny.setText("Verde Camisa: "+caracteristicasImgSel[0]);
-			//lblAzulSuspensorioLenny.setText("Azul Suspensorio: "+caracteristicasImgSel[1]);
-			lblMarromBarbaLenny.setText("Marrom Barba: "+caracteristicasImgSel[2]);
+			lblVerdeCamisaLenny.setText("Verde Camisa: "+round(caracteristicasImgSel[0], 4));
+			lblAzulSuspensorioLenny.setText("Azul Suspensorio: "+round(caracteristicasImgSel[1],4));
+			lblMarromBarbaLenny.setText("Marrom Barba: "+round(caracteristicasImgSel[2],4 ));
 			
 			//Nelson
-			lblLaranjaCamisaNelson.setText("Laranja Camisa: "+caracteristicasImgSel[3]);
-			lblAzulColeteNelson.setText("Azul Colete: "+caracteristicasImgSel[4]);
-			lblAzulSapatoNelson.setText("Azul Sapato: "+caracteristicasImgSel[5]);
+			lblLaranjaCamisaNelson.setText("Laranja Camisa: "+round(caracteristicasImgSel[3],4));
+			lblAzulColeteNelson.setText("Azul Colete: "+round(caracteristicasImgSel[4],4));
+			lblAzulSapatoNelson.setText("Azul Sapato: "+round(caracteristicasImgSel[5],4));
 			
 			for (double d : caracteristicasImgSel) {
 				System.out.println(d);
 			}
 			
 		}
+	}
+	
+	public static String gerarMatrizConfusao() throws Exception {
+		 DataSource ds = new DataSource("src\\arff\\caracteristicas.arff");
+		 Instances instancias = ds.getDataSet();
+		 instancias.setClassIndex(instancias.numAttributes()-1);
+		 Classifier cls = new J48();
+		 Evaluation eval = new Evaluation(instancias);
+		 Random rand = new Random(1);  // using seed = 1
+		 int folds = 10;
+		 eval.crossValidateModel(cls, instancias, folds, rand);
+		 return eval.toMatrixString();
 	}
 	
 	DecimalFormat df = new DecimalFormat();
@@ -72,6 +92,11 @@ public class PrincipalController {
 		System.out.println("NELSON: "+nb[1]);
 		lblApzBart.setText("LENNY: "+round(nb[0], 4)+"%");
 		lblApzHomer.setText("NELSON: "+round(nb[1], 4)+"%");
+	}
+	
+	@FXML
+	public void mostraMatrizDecisao() throws Exception {
+		lblMatrizConfusao.setText(gerarMatrizConfusao());
 	}
 	
 	public static double round(double value, int places) {
@@ -101,5 +126,7 @@ public class PrincipalController {
 		 }
 		 return null;
 	}
+	
+	
 	
 }

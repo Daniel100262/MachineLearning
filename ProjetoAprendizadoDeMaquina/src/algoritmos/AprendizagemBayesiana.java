@@ -1,7 +1,10 @@
 package algoritmos;
 
-import application.extractor_feature.ExtractFeature;
+import weka.classifiers.Classifier;
+import weka.classifiers.Evaluation;
 import weka.classifiers.bayes.NaiveBayes;
+import weka.classifiers.trees.J48;
+import weka.core.Debug.Random;
 import weka.core.DenseInstance;
 import weka.core.Instance;
 import weka.core.Instances;
@@ -34,6 +37,13 @@ public class AprendizagemBayesiana {
 			novo.setValue(5, caracteristicas[5]);
 			
 			retorno = nb.distributionForInstance(novo);
+			
+			Classifier cls = new J48();
+			Evaluation eval = new Evaluation(instancias);
+			Random rand = new Random(1);  // using seed = 1
+			int folds = 10;
+			eval.crossValidateModel(cls, instancias, folds, rand);
+			System.out.println(eval.toMatrixString());
 			
 		} catch (Exception e) {
 			e.printStackTrace();

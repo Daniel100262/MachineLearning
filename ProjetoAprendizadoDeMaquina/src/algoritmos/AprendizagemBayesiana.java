@@ -38,7 +38,7 @@ public class AprendizagemBayesiana {
 			
 			retorno = nb.distributionForInstance(novo);
 			
-			Classifier cls = new J48();
+			Classifier cls = new NaiveBayes();
 			Evaluation eval = new Evaluation(instancias);
 			Random rand = new Random(1);  // using seed = 1
 			int folds = 10;
